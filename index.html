@@ -1,0 +1,2863 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Rancangan Web Kelompok 1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        /*
+        ==================================================
+        GLOBAL STYLES & VARIABLES
+        ==================================================
+        */
+        /* LANDING PAGE STYLES */
+        .landing-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #9E7676, #CEAB93, #E6D8C3);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .landing-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .landing-logo {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .landing-subtitle {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+
+        .landing-btn {
+            background: linear-gradient(45deg, #9E7676, #CEAB93);
+            color: white;
+            border: none;
+            padding: 1.5rem 4rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, #CEAB93, #9E7676);
+        }
+
+        .landing-btn:active {
+            transform: translateY(0) scale(1);
+        }
+
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .landing-footer {
+            margin-top: 2rem;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Hide main content initially */
+        .main-content {
+            display: none;
+        }
+
+        /* EXISTING STYLES - Tetap sama seperti sebelumnya */
+        :root {
+            --primary-color: #9E7676;
+            --secondary-color: #212529;
+            --accent-color: #F7C873;
+            --light-bg-color: #E6D8C3;
+            --dark-bg-color: #CEAB93;
+            --text-color: #212529;
+            --white-color: #ffffff;
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--light-bg-color);
+            padding-top: 70px;
+            overflow-x: hidden;
+        }
+
+        /* ... (semua style CSS yang sudah ada sebelumnya tetap sama) ... */
+
+        :root {
+            --primary-color: #9E7676; /* Baby Blue */
+            --secondary-color: #212529; /* Dark Blue/Gray for contrast (Text/Footer) */
+            --accent-color: #F7C873; /* Soft Gold/Cream Accent for buttons (Upload/Success) */
+            --light-bg-color: #E6D8C3; /* Creamy White (Background utama) */
+            --dark-bg-color: #CEAB93; /* Use secondary for dark sections like footer/contact */
+            --text-color: #212529;
+            --white-color: #ffffff;
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        /* ANONYMOUS MESSAGE SPECIFIC STYLES FOR SOFT BLUE */
+        .anonymous-message .section-title h2::after,
+        .message-container h3,
+        .privacy-notice i,
+        .privacy-notice strong,
+        .upload-area:hover {
+            color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        
+        .anonymous-message .section-title h2::after {
+            background-color: var(--primary-color) !important;
+        }
+
+        .privacy-notice {
+            background-color: rgba(137, 207, 240, 0.1) !important; /* Baby Blue with transparency */
+            color: var(--secondary-color) !important; /* Darker text for readability */
+        }
+        
+        .message-form input:focus,
+        .message-form textarea:focus,
+        .message-form select:focus {
+            outline: none;
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 0 3px rgba(137, 207, 240, 0.35) !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--light-bg-color); /* Creamy White */
+            padding-top: 70px; 
+            overflow-x: hidden; 
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 80px 0; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px; 
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem; 
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px; 
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px; 
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /*
+        ==================================================
+        HEADER & NAVIGATION
+        ==================================================
+        */
+
+        header {
+            background-color: var(--white-color);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            text-decoration: none; 
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.6rem; 
+            color: var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .hamburger.active {
+            transform: rotate(90deg); 
+        }
+
+        #audio-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+        }
+
+        #audio-control button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background-color: #735557;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        #audio-control button:hover {
+            transform: scale(1.1);
+        }
+
+        /*
+        ==================================================
+        HERO SECTION
+        ==================================================
+        */
+
+        .hero {
+            position: relative;
+            height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            color: var(--white-color);
+            overflow: hidden;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Overlay untuk meningkatkan keterbacaan teks */
+            z-index: -1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-content {
+            font-size: 2.0rem;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 4.2rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-content h6 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+        }
+
+        /* Fallback untuk mobile jika video tidak optimal */
+@media (max-width: 768px) {
+    .video-background video {
+        display: block;
+    }
+    
+    /* Jika video terlalu berat di mobile, bisa menggunakan gambar fallback */
+    /*
+    .video-background {
+        background-image: url('https://i.ibb.co.com/rR69XgfQ/Untitled-design-1.png');
+        background-position: center;
+        background-size: cover;
+    }
+    .video-background video {
+        display: none;
+    }
+    */
+}
+
+/* Untuk perangkat yang sangat kecil */
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+    
+    .hero-content h6 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+}
+
+
+        @keyframes fadeInHero {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-image.animate-on-scroll {
+            transform: translateX(50px);
+        }
+        .about-image.animate-on-scroll.is-visible {
+            transform: translateX(0);
+        }
+
+        .about-text.animate-on-scroll {
+            transform: translateX(-50px);
+        }
+        .about-text.animate-on-scroll.is-visible {
+            transform: translateX(0);
+        }
+
+        /*
+        ==================================================
+        ABOUT SECTION
+        ==================================================
+        */
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            text-align: justify;
+            text-justify: inter-word;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            word-spacing: 2px;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        .about-text ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .about-text ul li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+        .about-text ul li i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transform: rotate(-2deg);
+            transition: transform 3s ease, box-shadow 3s ease;
+        }
+        
+        .about-image:hover {
+            transform: rotate(0deg) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+        .about-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /*
+        ==================================================
+        STUDENTS SECTION - SWIPER CAROUSEL (NEW)
+        ==================================================
+        */
+
+        .students {
+            background-color: var(--light-bg-color);
+        }
+
+        /* Swiper carousel */
+        .swiper {
+            width: 100%;
+            padding: 30px 0 60px;
+        }
+
+        .swiper-slide {
+            background: none;
+            padding: 18px;
+            text-align: center;
+            position: relative;
+            max-width: 500px;
+            max-height: 500px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .swiper-slide:hover {
+            transform: translateY(-5px);
+        }
+
+        .avatar-wrap {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 6px solid rgba(91, 167, 203, 0.12);
+        }
+
+        .avatar-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+        .swiper-slide:hover .avatar-wrap img {
+            transform: scale(1.06);
+        }
+
+        .member-name {
+            margin-top: 12px;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .member-role {
+            font-size: .95rem;
+            color: #6c757d;
+            margin-top: 6px;
+        }
+
+        .star-badge {
+            position: absolute;
+            right: 16px;
+            top: 14px;
+            background: linear-gradient(180deg, #FFD86A, #FFB84D);
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #5d3815;
+        }
+
+        .star-badge i {
+            font-size: 18px;
+        }
+
+        /*
+        ==================================================
+        GALLERY SECTION - SWIPER CAROUSEL (BESAR)
+        ==================================================
+        */
+
+        .gallery {
+            background-color: var(--light-bg-color);
+        }
+
+        .gallery-swiper {
+            width: 100%;
+            height: 600px;
+            padding: 30px 0 60px;
+        }
+
+        .gallery-slide {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease;
+            max-width: 800px;
+            width: 90%;
+            height: auto;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            margin: 0 auto; /* Pusatkan slide */
+        }
+
+        .gallery-slide:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .6s;
+        }
+
+        .gallery-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            justify-content: center;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px 20px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-slide:hover .gallery-overlay {
+            transform: translateY(-5px);
+        }
+
+        #students 
+        .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 10px;
+        justify-items: center;
+        align-items: start;
+        }
+
+        .gallery-card {
+        background: none;
+        text-align: center;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        max-width: 350px;
+        }
+
+        .gallery-card:hover {
+        transform: translateY(-6px);
+        }
+
+        .gallery-card img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+        }
+
+        .gallery-card:hover img {
+        transform: scale(1.05);
+        }
+
+        .member-quote {
+            font-style: italic;
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            text-align: center;
+            text-justify: center;
+        }
+
+        .member-name {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        margin-top: 12px;
+        }
+
+        .member-role {
+        font-size: 0.95rem;
+        color: #6c757d;
+        margin: 6px 12px 18px;
+        }
+        
+
+
+        /* Modal for Image Zoom */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-content.zoomed {
+            transform: translate(-50%, -50%) scale(1.4);
+            cursor: zoom-out;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 18px;
+            right: 28px;
+            color: #f1f1f1;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #bbb;
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+            z-index: 2001;
+        }
+
+        .modal-nav-btn {
+            background-color: rgba(255, 255, 255, 0.16);
+            border: none;
+            color: white;
+            font-size: 22px;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.05rem;
+            background-color: rgba(0, 0, 0, 0.45);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        /*
+        ==================================================
+        ANONYMOUS MESSAGE SECTION (CHAT STYLE LIKE WA)
+        ==================================================
+        */
+
+        .anonymous-message {
+            background-color: var(--light-bg-color);
+        }
+
+        .message-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white-color);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .message-container h3 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .message-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            background-color: var(--white-color);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 100px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(137, 207, 240, 0.25);
+        }
+
+        .send-btn {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy-notice {
+            background-color: rgba(137, 207, 240, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 0.85rem;
+        }
+
+        .privacy-notice i {
+            margin-right: 6px;
+        }
+
+        /* Message Display Section - CHAT STYLE */
+        .messages-display {
+            margin-top: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .messages-display h3 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .message-item {
+            display: flex;
+            flex-direction: column;
+            max-width: 80%;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-item.sent {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .message-item.received {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 5px;
+            word-wrap: break-word;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .message-item.sent .message-bubble {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-item.received .message-bubble {
+            background-color: #e5e5ea;
+            color: var(--text-color);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
+        .no-messages {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 30px;
+        }
+
+        .no-messages i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #6c757d;
+            opacity: 0.5;
+        }
+
+        /*
+        ==================================================
+        CONTACT SECTION
+        ==================================================
+        */
+
+        .contact {
+            background-color: var(--dark-bg-color);
+            color: var(--white-color);
+        }
+
+        .contact .section-title h2 {
+            color: var(--white-color);
+        }
+
+        .contact .section-title h2::after {
+            background-color: var(--primary-color);
+        }
+
+        .contact-content {
+            display: flex;
+            gap: 40px;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto; /* Untuk menengahkan container-nya */
+            max-width: 400px;
+            max-height: 300px; 
+            
+        }
+
+
+        .contact-info {
+            flex: 1;
+            padding: 0px; 
+            text-align: center;
+            text-justify: center;
+        }
+
+        .contact-info h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            display: flex;
+            flex-direction: column;
+            color: var(--primary-color);
+            text-align: center;
+            text-justify: center;
+            width: 100%;
+        }
+
+        .contact-info p {
+            margin-top:  10px;
+            display: flex;
+            flex-direction: column;
+            font-size: 1.1rem;
+            text-align: center;
+            text-justify: center;
+        }
+
+        .contact-info i {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0; 
+        }
+
+        .contact-form {
+            flex: 1;
+            padding: 30px 0; 
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px; 
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--white-color);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color); 
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 8px rgba(247, 200, 115, 0.5);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .contact-form .btn {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--secondary-color);
+            width: 100%;
+            padding: 15px;
+        }
+
+        .contact-form .btn:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        .contact-content {
+            display: flex; /* Menggunakan flexbox */
+            justify-content: space-between; /* Memberikan jarak antara kolom */
+            align-items: center; /* Menyusun vertikal di tengah */
+            flex-wrap: wrap; /* Agar responsif */
+            
+        }
+
+        .contact-info {
+            flex: 1; /* Membuat kolom ini mengambil ruang yang fleksibel */
+            margin-right: 20px; /* Jarak antara kolom */
+        }
+
+        .contact-image {
+            flex: 1; /* Kolom gambar juga mengambil ruang yang fleksibel */
+            text-align: center; /* Mengatur gambar di tengah */
+            background-color: #f0f0f0; /* Warna latar belakang */
+            border-radius: 8px; /* Membuat sudut kontainer membulat */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan */
+            display: flex;
+        }
+
+        .contact-image img {
+            max-width: 100%; /* Membuat gambar responsif */
+            height: auto; /* Mempertahankan rasio aspek gambar */
+            max-height: 500px; /* Maksimal tinggi gambar */
+            object-fit: cover; /* Memastikan gambar di-crop dengan baik jika perlu */
+        }
+
+                /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .contact-content {
+                flex-direction: column;
+                gap: 30px;
+                align-items: center;
+            }
+            
+            .contact-info, .contact-image {
+                max-width: 100%;
+            }
+            
+            .contact-image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-info h3 {
+                font-size: 1.8rem;
+            }
+            
+            .contact-info p {
+                font-size: 1.1rem;
+            }
+            
+            .contact-content {
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .contact-info {
+                padding: 20px;
+                min-width: 100%;
+            }
+            
+            .contact-info h3 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            
+            .contact-info p {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+            
+            .contact-image {
+                min-width: 100%;
+                height: 200px;
+            }
+            
+            .contact-content {
+                margin-top: 10px;
+                gap: 20px;
+            }
+        }
+
+                /* From Uiverse.io by eslam-hany */ 
+        .book {
+        position: relative;
+        border-radius: 10px;
+        width: 100%;
+        height: 250px;
+        background-color: whitesmoke;
+        -webkit-box-shadow: 1px 1px 12px #000;
+        box-shadow: 1px 1px 12px #000;
+        -webkit-transform: preserve-3d;
+        -ms-transform: preserve-3d;
+        transform: preserve-3d;
+        -webkit-perspective: 2000px;
+        perspective: 2000px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        color: #000;
+        }
+
+        .cover {
+        top: 0;
+        position: absolute;
+        background-color:var(--dark-bg-color);
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        cursor: pointer;
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+        -webkit-transform-origin: 0;
+        -ms-transform-origin: 0;
+        transform-origin: 0;
+        -webkit-box-shadow: 1px 1px 12px #000;
+        box-shadow: 1px 1px 12px #000;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        }
+
+
+        .book:hover .cover {
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+        -webkit-transform: rotatey(-80deg);
+        -ms-transform: rotatey(-80deg);
+        transform: rotatey(-80deg);
+        }
+
+        /*
+        ==================================================
+        FOOTER
+        ==================================================
+        */
+
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            padding: 30px 0; 
+            text-align: center;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-content p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px; 
+        }
+
+        .social-links a {
+            color: var(--white-color);
+            font-size: 1.6rem; 
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: scale(1.3) rotate(5deg);
+        }
+
+        /*
+        ==================================================
+        RESPONSIVE DESIGN
+        ==================================================
+        */
+
+        @media (max-width: 992px) {
+            .about-content, .contact-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                margin-top: 40px;
+                max-width: 90%;
+            }
+
+            .contact-info {
+                order: 2;
+                margin-top: 40px;
+            }
+            .contact-form {
+                padding: 0;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .gallery-swiper {
+                height: 400px;
+            }
+            
+            .gallery-slide {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .navbar {
+                padding: 10px 0;
+            }
+
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 60px; 
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background-color: var(--white-color);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 40px;
+                transition: left 0.4s ease;
+                z-index: 999;
+                box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+                opacity: 0;
+                transition: opacity 0.5s ease 0.2s;
+            }
+            
+            .nav-links.active li {
+                opacity: 1;
+            }
+
+            .nav-links a {
+                font-size: 1.3rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .about-image.animate-on-scroll,
+            .about-text.animate-on-scroll {
+                transform: translateY(30px);
+            }
+            
+            .avatar-wrap {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .upload-section, .message-container {
+                padding: 20px;
+            }
+
+            .preview-item {
+                width: 70px;
+                height: 70px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+
+            .modal-nav-btn {
+                font-size: 18px;
+                padding: 8px 12px;
+            }
+
+            .message-item {
+                max-width: 90%;
+            }
+            
+            .gallery-swiper {
+                height: 350px;
+            }
+            
+            .gallery-slide {
+                height: 300px;
+            }
+            
+            .gallery-title {
+                font-size: 1.3rem;
+            }
+            
+            .gallery-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+             .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .hero-content .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .about-image {
+                max-width: 100%;
+            }
+
+            .contact-info h3 {
+                font-size: 1.8rem;
+            }
+            .contact-info p {
+                font-size: 1rem;
+            }
+            
+            .avatar-wrap {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .member-name {
+                font-size: 1.1rem;
+            }
+            
+            .member-role {
+                font-size: 0.85rem;
+            }
+
+            .upload-section, .message-container {
+                padding: 15px;
+            }
+
+            .preview-item {
+                width: 60px;
+                height: 60px;
+            }
+
+            .upload-area {
+                padding: 20px 10px;
+            }
+
+            .upload-area i {
+                font-size: 1.8rem;
+            }
+
+            .close-modal {
+                font-size: 30px;
+                top: 15px;
+                right: 20px;
+            }
+
+            .message-form {
+                flex-direction: column;
+            }
+
+            .send-btn {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+
+            .message-item {
+                max-width: 95%;
+            }
+            
+            .gallery-swiper {
+                height: 300px;
+            }
+            
+            .gallery-slide {
+                height: 250px;
+            }
+            
+            .gallery-title {
+                font-size: 1.1rem;
+            }
+            
+            .gallery-description {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LANDING PAGE -->
+    <div class="landing-page" id="landingPage">
+        <div class="floating-particles" id="particles"></div>
+        <div class="landing-content">
+            <h1 class="landing-logo">ECOSTIC</h1>
+            <h2 class="landing-subtitle">Welcome to Our Memory</h2>
+            <button class="landing-btn" id="enterBtn">
+                OPEN
+            </button>
+        </div>
+    </div>
+
+       <!-- ANIMATED BACKGROUND -->
+    <div class="animated-background">
+        <div class="floating-shapes" id="floatingShapes"></div>
+    </div>
+
+    
+
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#home" class="logo">Ecostic</a>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#students" class="nav-link">Members</a></li>
+                    <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="#anonymous" class="nav-link">Anonim Text</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div id="audio-control">
+        <button id="musicButton"><i class="fa-solid fa-play"></i></button>
+        <audio id="backgroundMusic" loop>
+            <source src="musik2.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    
+
+    <section id="home" class="hero">
+
+                        <div class="video-background">
+                    <video autoplay muted loop>
+                        <source src="vid2.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+        <div class="container">
+            <div class="hero-content">
+                <h6>Halo sobat statistik!</h6>
+                <h1>WELCOME TO ECOSTIC</h1>
+                <p><i>“in data we trust, in tugas we stress”</i></p>
+                <a href="#about" class="btn">View More<i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+    
+    <div style="height: 10px; ; background-size: cover; background-position: center;"></div>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>About Ecos</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text animate-on-scroll">
+                    <p>
+                        Ecostic adalah tempat di mana data bernyawa dan angka bercerita, menghidupkan 
+                        setiap impian menjadi kenyataan.  Di sini, setiap tugas adalah kisah, setiap presentasi 
+                        adalah kebersamaan, dan setiap diskusi adalah proses menuju kesuksesan. Kami tidak hanya 
+                        belajar menganalisis data, tetapi juga memahami cerita di baliknya.
+                    </p>
+                </div>
+                <div class="about-image animate-on-scroll">
+                    <img src="AV1_9762.JPG" alt="Kelas 04 ECOSTIC">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STUDENTS SECTION WITH SWIPER CAROUSEL -->
+    <section id="students" class="students">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+            <h2>Ecos Members</h2>
+            </div>
+            <div class="gallery-grid">
+            <div class="gallery-card">
+                <img src="Lathifa Nursyahbani A.png" alt="Lathifa Nursyahbani">
+                <div class="member-name">Lathifa Nursyahbani</div>
+                <div class="member-quote"><i>"GWS (Gweh Will Survive)"</i></div>
+                <div class="member-role">Makassar</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Annisa Nurariqah.png" alt="Annisa Nurariqah">
+                <div class="member-name">Annisa Nurariqah</div>
+                <div class="member-quote"><i>"Fake it 'till you make it!"</i></div>
+                <div class="member-role">Nunukan</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Ramadhan Nur Rahmat.png" alt="Ramadhan Nur Rahmat">
+                <div class="member-name">Ramadhan Nur Rahmat</div>
+                <div class="member-quote"><i>"Hidup yang tidak dipertaruhkan, tidak akan pernah dimenangkan"</i></div>
+                <div class="member-role">Konawe</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Muh. Yusril As Syuhrah.png" alt="Muh. Yusril As Syuhra">
+                <div class="member-name">Muh. Yusril As Syuhra</div>
+                <div class="member-quote"><i>"Kemandirian adalah kunci, ketepatan waktu adalah jembatan menuju kesuksesan"</i></div>
+                <div class="member-role">Kepulauan Selayar</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="7.png" alt="Fadiyah Nurul Ilmi">
+                <div class="member-name">Fadiyah Nurul Ilmi</div>
+                <div class="member-quote"><i>"Don't study with a fear of failing, study with a hope of succeeding"</i></div>
+                <div class="member-role">Luwu Utara</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="5.png" alt="Syahgita Wahmin">
+                <div class="member-name">Syahgita Wahmin</div>
+                <div class="member-quote"><i>"live with positive vibes"</i></div>
+                <div class="member-role">Bone</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="10.png" alt="Wafa Nafisah">
+                <div class="member-name">Wafa Nafisah</div>
+                <div class="member-quote"><i>"Be the best you can be!"</i></div>
+                <div class="member-role">Maros</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="14.png" alt="Aliyah Mustika">
+                <div class="member-name">Aliyah Mustika</div>
+                <div class="member-quote"><i>"Hari ini berjuang, besok ber-uang"</i></div>
+                <div class="member-role">Makassar</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="2.png" alt="Nabila Azzahra">
+                <div class="member-name">Nabila Azzahra</div>
+                <div class="member-quote"><i>“You don't have to be great to start, but you have to start to be great.”</i></div>
+                <div class="member-role">Polewali Mandar</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="8.png" alt="Nur Fadilla">
+                <div class="member-name">Nur Fadilla</div>
+                <div class="member-quote"><i>"Hiduplah seperti kucing: tenang, sederhana, dan bahagia"</i></div>
+                 <div class="member-role">Gowa</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="11.png" alt="Riby Fitriyyah Shalihati">
+                <div class="member-name">Riby Fitriyyah Shalihati</div>
+                <div class="member-quote"><i>"Belajar dari kemarin, hidup untuk hari ini"</i></div>
+                 <div class="member-role">Barru</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="6.png" alt="Febriana AR">
+                <div class="member-name">Febriana AR</div>
+                <div class="member-quote"><i>"Jadilah versi terbaik dari dirimu sendiri"</i></div>
+                <div class="member-role">Sinjai</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="15.png" alt="Ananda Sri Wulandari">
+                <div class="member-name">Ananda Sri Wulandari</div>
+                <div class="member-quote"><i>"Teruslah bertumbuh melampaui dirimu yang kemarin"</i></div>
+                 <div class="member-role">Luwu Utara</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="9.png" alt="Yulia">
+                <div class="member-name">Yulia</div>
+                <div class="member-quote"><i>"Love yourself first, and everything falls into line"</i></div>
+                <div class="member-role">Tabalong</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="4.png" alt="Alya Rahmah Zhafirah">
+                <div class="member-name">Alya Rahmah Zhafirah</div>
+                <div class="member-quote"><i>"Prinsip yang dijaga dengan tenang akan lebih kokoh"</i></div>
+                <div class="member-role">Gowa</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="13.png" alt="Marni">
+                <div class="member-name">Marni</div>
+                <div class="member-quote"><i>"Setiap Kesulitan Selalu Ada Kemudahan"</i></div>
+                <div class="member-role">Polewali Mandar</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="12.png" alt="Mutmainna Nur Padila">
+                <div class="member-name">Mutmainna Nur Padila</div>
+                <div class="member-quote"><i>“Be the plot twist u want in ur own story”</i></div>
+                <div class="member-role">Luwu Timur</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="A. Muh. Dzakwan S..png" alt="A. MUH. DZAKWAN SUPARMAN">
+                <div class="member-name">A. Muh. Dzakwan S.</div>
+                <div class="member-quote"><i>"Pulang dan beristirahatlah sejenak"</i></div>
+                <div class="member-role">Gowa</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Suci Ramadhani.png" alt="Suci">
+                <div class="member-name">Suci Ramadhani</div>
+                <div class="member-quote"><i>"Setiap gaya adalah momen untuk diabadikan"</i></div>
+                <div class="member-role">Gowa</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="M. Lutfi Sarkawi.png" alt="Muh. Luthfi Sarkawi">
+                <div class="member-name">M. Luthfi Sarkawi</div>
+                <div class="member-quote"><i>"Menjadi pribadi yang berguna"</i></div>
+                <div class="member-role">Masamba</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Sazkia Dewi Suherman.png" alt="Sazkia">
+                <div class="member-name">Sazkia Dewi Suherman</div>
+                <div class="member-quote"><i>"Hidup Bukan Saling Mendahului, Bermimpilah Sendiri-Sendiri"</i></div>
+                <div class="member-role">Enrekang</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Arpan.png" alt="Arpan">
+                <div class="member-name">Arpan</div>
+                <div class="member-quote"><i>"Amsal 23:18; Karena Masa Depan Sungguh Ada, Dan Harapanmu Tidak Akan Hilang"</i></div>
+                <div class="member-role">Pasangkayu</div>
+            </div>
+
+
+            <div class="gallery-card">
+                <img src="3.png" alt="Aliana Fahnur">
+                <div class="member-name">Aliana Fahnur</div>
+                <div class="member-quote"><i>"Hidup itu sederhana: kalau lapar, makan. Kalau capek, drama dulu."</i></div>
+                <div class="member-role">Sulawesi Tengah</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Meisya Anastasya.png" alt="Meisya">
+                <div class="member-name">Meisya Anatasya</div>
+                <div class="member-quote"><i>"Lambat bukan berarti gagal, tetapi tumbuh yang berproses"</i></div>
+                <div class="member-role">Wajo</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Syafaq .png" alt="Syafaq">
+                <div class="member-name">Muh. Syafaq N.</div>
+                <div class="member-quote"><i>"Senyum bisa mengubah segalanya"</i></div>
+                <div class="member-role">Bima</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Azzhohir Mifta Narra.png" alt="Azzo">
+                <div class="member-name">Azzhohir Mifta Narra</div>
+                <div class="member-quote"><i>"Dihina tidak tumbang, dipuji makasih bang"</i></div>
+                <div class="member-role">Enrekang</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Laila Qadriana.png" alt="Laila">
+                <div class="member-name">Laila Qadriana</div>
+                <div class="member-quote"><i>"Tidak ada perjalanan tanpa debu dan tidak ada kesuksesan tanpa doa ibu"</i></div>
+                <div class="member-role">Gowa</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Alya Rahmawati.png" alt="Alya">
+                <div class="member-name">Alya Rahmawati</div>
+                <div class="member-quote"><i>"Whatever you are, be a good one"</i></div>
+                <div class="member-role">Kepulauan Selayar</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Husnul Khatima.png" alt="Husnul">
+                <div class="member-name">Husnul Khatima</div>
+                <div class="member-quote"><i>"Enjoy Every Process"</i></div>
+                <div class="member-role">Kaimana</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Natalia Mangapa.png" alt="Natalia Mangapa">
+                <div class="member-name">Natalia Mangapa</div>
+                <div class="member-quote"><i>"Syukuri, Nikmati, dan Jalani"</i></div>
+                <div class="member-role">Toraja</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Hiskia Julianto.png" alt="Laila">
+                <div class="member-name">Hiskia Julianto</div>
+                <div class="member-quote"><i>"Motivasi tanpa aksi hanyalah imajinasi"</i></div>
+                <div class="member-role">Toraja</div>
+            </div>
+
+            <div class="gallery-card">
+                <img src="Ahmad Ansar.png" alt="Ansar">
+                <div class="member-name">Ahmad Ansar</div>
+                <div class="member-quote"><i>"Tidak semua usaha itu dipermudah, tapi setiap yang berusaha pasti berbuah"</i></div>
+                <div class="member-role">Polewali Mandar</div>
+            </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION WITH SWIPER CAROUSEL (BESAR) -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Ecos Gallery</h2>
+            </div>
+            <div class="gallery-swiper animate-on-scroll" id="gallerySwiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide gallery-slide" data-index="0">
+                        <img src="DAY 1 SEM 1.jpg" alt="FOTO MABA">
+                        <div class="gallery-overlay">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide gallery-slide" data-index="1">
+                        <img src="BATIK 23.jpg" alt="Hari Batik Nasional 2023">
+                        <div class="gallery-overlay">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide gallery-slide" data-index="2">
+                        <img src="DAY 1 PDH.jpg" alt="Pertama Pakai PDH">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide gallery-slide" data-index="3">
+                        <img src="BETA 8.jpg" alt="BETA 8">
+                        <div class="gallery-overlay">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 5 -->
+                    <div class="swiper-slide gallery-slide" data-index="4">
+                        <img src="HARLAH 23.jpg" alt="HARLAH">
+                        <div class="gallery-overlay">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 6 -->
+                    <div class="swiper-slide gallery-slide" data-index="5">
+                        <img src="UAS PPKN.jpg" alt="UAS PPKN">
+                        <div class="gallery-overlay">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 7 -->
+                    <div class="swiper-slide gallery-slide" data-index="6">
+                        <img src="BUKBER 24.jpg" alt="BUKBER 2024">
+                        <div class="gallery-overlay">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 8 -->
+                    <div class="swiper-slide gallery-slide" data-index="7">
+                        <img src="SKRIPSI.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+
+                                        <!-- Slide 9 -->
+                    <div class="swiper-slide gallery-slide" data-index="8">
+                        <img src="IMG_0764.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                                        <!-- Slide 10 -->
+                    <div class="swiper-slide gallery-slide" data-index="9">
+                        <img src="IMG_3035.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                                        <!-- Slide 11 -->
+                    <div class="swiper-slide gallery-slide" data-index="10">
+                        <img src="IMG_3551.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                                        <!-- Slide 12 -->
+                    <div class="swiper-slide gallery-slide" data-index="11">
+                        <img src="IMG_5262.HEIC.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                                        <!-- Slide 13 -->
+                    <div class="swiper-slide gallery-slide" data-index="12">
+                        <img src="dclassic 2024-12-11 174435.147.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                                        <!-- Slide 14 -->
+                    <div class="swiper-slide gallery-slide" data-index="13">
+                        <img src="Screenshot 2025-10-06 191213.png" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 15 -->
+                    <div class="swiper-slide gallery-slide" data-index="14">
+                        <img src="Screenshot 2025-10-06 191229.png" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 16 -->
+                    <div class="swiper-slide gallery-slide" data-index="15">
+                        <img src="original 2025-03-13 192343.521.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 17 -->
+                    <div class="swiper-slide gallery-slide" data-index="16">
+                        <img src="IMG-20241126-WA0069.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 18 -->
+                    <div class="swiper-slide gallery-slide" data-index="17">
+                        <img src="IMG_9780.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 19 -->
+                    <div class="swiper-slide gallery-slide" data-index="18">
+                        <img src="IMG_7106.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 20 -->
+                    <div class="swiper-slide gallery-slide" data-index="19">
+                        <img src="IMG_9582.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 21 -->
+                    <div class="swiper-slide gallery-slide" data-index="20">
+                        <img src="IMG_0759.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 22 -->
+                    <div class="swiper-slide gallery-slide" data-index="21">
+                        <img src="IMG_8419.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 23 -->
+                    <div class="swiper-slide gallery-slide" data-index="22">
+                        <img src="IMG_5523.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 24 -->
+                    <div class="swiper-slide gallery-slide" data-index="23">
+                        <img src="IMG_9561.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                    <!-- Slide 25 -->
+                    <div class="swiper-slide gallery-slide" data-index="24">
+                        <img src="IMG_1299.jpg" alt="SKRIPSI">
+                        <div class="gallery-overlay">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-nav">
+            <button class="modal-nav-btn prev-modal-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="modal-nav-btn next-modal-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <img class="modal-content" id="modalImage">
+        <div class="image-counter" id="imageCounter"></div>
+    </div>
+
+    <section id="anonymous" class="anonymous-message">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Anonim Text</h2>
+            </div>
+            <div class="message-container animate-on-scroll">
+                <h3><i class="fas fa-user-secret"></i> Kotak Pesan Rahasia</h3>
+                
+                <!-- Chat Display -->
+                <div class="messages-display">
+                    <div class="message-list" id="message-list">
+                        <div class="no-messages" id="no-messages">
+                            <i class="fas fa-inbox"></i>
+                            <p>Belum ada pesan yang dikirim. Jadilah yang pertama!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Form -->
+                <form class="message-form" id="anonymous-form">
+                    <textarea class="message-input" id="anonymous-message" placeholder="Ketik pesan Anda di sini..." required></textarea>
+                    <button type="submit" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                
+                <div class="privacy-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Privasi Terjamin:</strong> Pesan Anda akan dikirim secara anonim dan tidak akan melacak identitas Anda.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Contact</h2>
+            </div>
+            <div class="contact-content">
+        <!-- From Uiverse.io by eslam-hany --> 
+        <div class="book">
+            <div class="cover">
+               <div class="contact-info animate-on-scroll">
+                    <h3>Created by</h3>
+                    <p>Lathifa Nursyahbani</p>
+                    <p>Annisa Nurariqah</p>
+                    <p>Ramadhan Nur Rahmat</p>
+                    <p>Muh. Yusril As Syuhra</p>
+                </div>
+            </div>
+            <div class="contact-image">
+                    <img src="https://i.ibb.co.com/842P8Krg/IMG-5637-1.jpg" alt="Team Photo" />
+                </div>
+        </div>
+        
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p> ECOSTIC - Jurusan Statistika FMIPA UNM</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/ecostics/"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:kelas04statistika23@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // LANDING PAGE FUNCTIONALITY
+        const landingPage = document.getElementById('landingPage');
+        const mainContent = document.getElementById('mainContent');
+        const enterBtn = document.getElementById('enterBtn');
+        const particlesContainer = document.getElementById('particles');
+
+        // Create floating particles
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 80 + 20;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particle.style.opacity = Math.random() * 0.6 + 0.2;
+            
+            particlesContainer.appendChild(particle);
+        }
+
+              // Create floating shapes for background
+        document.addEventListener('DOMContentLoaded', function() {
+            const shapesContainer = document.getElementById('floatingShapes');
+            
+            for (let i = 0; i < 15; i++) {
+                const shape = document.createElement('div');
+                shape.classList.add('shape');
+                
+                const size = Math.random() * 0 + 0;
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.left = `${Math.random() * 100}%`;
+                shape.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                shape.style.animationDelay = `${Math.random() * 5}s`;
+                shape.style.opacity = Math.random() * 0.6 + 0.2;
+                
+                shapesContainer.appendChild(shape);
+            }
+        });
+
+        // Video background control
+document.addEventListener('DOMContentLoaded', function() {
+    const heroVideo = document.querySelector('.video-background video');
+    
+    if (heroVideo) {
+        // Coba play video (untuk beberapa browser yang membutuhkan ini)
+        heroVideo.play().catch(function(error) {
+            console.log('Video autoplay failed:', error);
+        });
+        
+        // Fallback jika video tidak tersedia
+        heroVideo.addEventListener('error', function() {
+            console.log('Video failed to load, using fallback image');
+            document.querySelector('.video-background').style.backgroundImage = "url('https://i.ibb.co.com/rR69XgfQ/Untitled-design-1.png')";
+            document.querySelector('.video-overlay').style.display = 'none';
+        });
+    }
+});
+
+        // Enter button functionality
+        enterBtn.addEventListener('click', function() {
+            // Add loading animation to button
+            enterBtn.innerHTML = 'Loading<i class="fas fa-spinner fa-spin"></i>';
+            enterBtn.style.transform = 'scale(0.95)';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                // Hide landing page with fade out
+                landingPage.style.opacity = '0';
+                landingPage.style.transition = 'opacity 0.8s ease';
+                
+                // Show main content after fade out
+                setTimeout(() => {
+                    landingPage.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    
+                    // Trigger any initialization functions for main content
+                    initializeMainContent();
+                }, 800);
+            }, 1500);
+        });
+
+        // Function to initialize main content after landing page
+        function initializeMainContent() {
+            // Initialize all the functionality from your original script
+            initializeNavigation();
+            initializeAudio();
+            initializeAnimations();
+            initializeSwipers();
+            initializeModal();
+            initializeAnonymousMessage();
+        }
+    </script>
+    <script>
+        const music = document.getElementById('backgroundMusic');
+        const musicButton = document.getElementById('musicButton');
+        let isPlaying = false;
+
+        musicButton.addEventListener('click', () => {
+        if (isPlaying) {
+            music.pause();
+            musicButton.innerHTML = '<i class="fa-solid fa-play"></i>';
+            musicButton.style.backgroundColor = "#735557";
+        } else {
+            music.play();
+            musicButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            musicButton.style.backgroundColor = "#735557";
+        }
+        isPlaying = !isPlaying;
+        });
+
+        // Reset tombol saat musik berhenti
+        music.addEventListener('ended', () => {
+        isPlaying = false;
+        musicButton.innerHTML = '<i class="fa-solid fa-play"></i>';
+        musicButton.style.backgroundColor = "#4CAF50";
+        });
+    </script>
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const navItems = document.querySelectorAll('.nav-link');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            const icon = hamburger.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times'); 
+        });
+
+        // Close mobile menu and set active link when clicking on a link
+        navItems.forEach(link => {
+            link.addEventListener('click', function() {
+                navItems.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    const icon = hamburger.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 60, 
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Active link highlighting on scroll
+        const sections = document.querySelectorAll("section");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) { 
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navItems.forEach((li) => {
+                li.classList.remove("active");
+                if (li.getAttribute("href").includes(current)) {
+                    li.classList.add("active");
+                }
+            });
+        });
+
+        // ANIMATION ON SCROLL (Intersection Observer)
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            root: null, 
+            rootMargin: '0px',
+            threshold: 0.2 
+        });
+
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // SWIPER CAROUSEL INIT FOR GALLERY (BESAR)
+        const gallerySwiper = new Swiper('#gallerySwiper', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            centeredSlides: true,
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                dynamicBullets: true,
+            },
+            breakpoints: {
+                768: { slidesPerView: 1 },
+                1024: { slidesPerView: 2 }
+            },
+            effect:'slide',
+            speed: 800,
+        });
+
+        // MODAL GALLERY FUNCTIONALITY
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.querySelector('.close-modal');
+        const prevModalBtn = document.querySelector('.prev-modal-btn');
+        const nextModalBtn = document.querySelector('.next-modal-btn');
+        const imageCounter = document.getElementById('imageCounter');
+
+        let galleryImages = [];
+        let currentImageIndex = 0;
+
+        function collectGalleryImages(){
+            // Collect all images from gallery and students sections
+            galleryImages = Array.from(document.querySelectorAll('.gallery-slide img'))
+                .concat(Array.from(document.querySelectorAll('.avatar-wrap img')));
+        }
+
+        function openModal(index){
+            collectGalleryImages();
+            modal.style.display = 'block';
+            modalImg.src = galleryImages[index].src;
+            modalImg.classList.remove('zoomed');
+            currentImageIndex = index;
+            updateImageCounter();
+            document.body.style.overflow='hidden';
+        }
+
+        function closeModalFunc(){
+            modal.style.display='none';
+            document.body.style.overflow='auto';
+        }
+
+        function updateImageCounter(){
+            imageCounter.textContent = (currentImageIndex+1) + ' / ' + galleryImages.length;
+        }
+
+        function nextImage(){
+            currentImageIndex = (currentImageIndex+1) % galleryImages.length; 
+            modalImg.src = galleryImages[currentImageIndex].src; 
+            modalImg.classList.remove('zoomed'); 
+            updateImageCounter();
+        }
+
+        function prevImage(){
+            currentImageIndex = (currentImageIndex-1 + galleryImages.length) % galleryImages.length; 
+            modalImg.src = galleryImages[currentImageIndex].src; 
+            modalImg.classList.remove('zoomed'); 
+            updateImageCounter();
+        }
+
+        function toggleZoom(){
+            modalImg.classList.toggle('zoomed');
+        }
+
+        // Initialize gallery functionality
+        document.addEventListener('DOMContentLoaded', ()=>{
+            collectGalleryImages();
+            
+            // Add click events to gallery slides
+            const gallerySlides = document.querySelectorAll('.gallery-slide');
+            gallerySlides.forEach((slide, idx)=> slide.addEventListener('click', ()=> openModal(idx)));
+            
+            // Add click events to student images
+            const studentImgs = document.querySelectorAll('.avatar-wrap img');
+            studentImgs.forEach((img, idx)=> img.addEventListener('click', ()=> openModal(gallerySlides.length + idx)));
+            
+            // Add click events to student slides
+            const studentSlides = document.querySelectorAll('#studentsSwiper .swiper-slide');
+            studentSlides.forEach((slide, idx) => {
+                slide.addEventListener('click', () => {
+                    openModal(gallerySlides.length + idx);
+                });
+            });
+        });
+
+        closeModal.addEventListener('click', closeModalFunc);
+        prevModalBtn.addEventListener('click', prevImage);
+        nextModalBtn.addEventListener('click', nextImage);
+        modalImg.addEventListener('click', toggleZoom);
+        modal.addEventListener('click', (e)=>{ 
+            if(e.target===modal) closeModalFunc(); 
+        });
+        
+        document.addEventListener('keydown', (e)=>{
+            if(modal.style.display==='block'){
+                if(e.key==='Escape') closeModalFunc();
+                if(e.key==='ArrowRight') nextImage();
+                if(e.key==='ArrowLeft') prevImage();
+            }
+        });
+
+ 
+    </script>
+
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+         // ==================================================
+        // FIREBASE CONFIGURATION & INITIALIZATION
+        // ==================================================
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxC0VUVrmV-fP8z1O4n-UEgORd7VpR5uI",
+            authDomain: "tes-web-49e87.firebaseapp.com",
+            projectId: "tes-web-49e87",
+            storageBucket: "tes-web-49e87.firebasestorage.app",
+            messagingSenderId: "743342308335",
+            appId: "1:743342308335:web:92cdf40e5823c13e8a541a",
+            measurementId: "G-6X36HVS88V"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+        const db = firebase.firestore();
+
+        // ==================================================
+        // ANONYMOUS MESSAGE FUNCTIONALITY WITH FIRESTORE
+        // ==================================================
+        
+const anonymousForm = document.getElementById('anonymous-form');
+const messageList = document.getElementById('message-list');
+const noMessages = document.getElementById('no-messages');
+const messageInput = document.getElementById('anonymous-message');
+const sendBtn = anonymousForm?.querySelector('.send-btn');
+
+// Variabel untuk menyimpan listener
+let messagesListener = null;
+
+// Fungsi untuk menampilkan pesan dalam format chat
+function displayMessages(messages) {
+    if (!messageList) return;
+    
+    console.log("Menampilkan pesan:", messages.length);
+    
+    messageList.innerHTML = '';
+    
+    if (messages.length === 0) {
+        noMessages.style.display = 'block';
+        messageList.appendChild(noMessages);
+        return;
+    }
+    
+    noMessages.style.display = 'none';
+    
+    // Tampilkan semua pesan (urutan dari yang terlama ke terbaru)
+    messages.forEach((message) => {
+        const messageItem = document.createElement('div');
+        messageItem.className = `message-item received`; // Ubah ke received agar tampil di kiri
+        
+        const messageBubble = document.createElement('div');
+        messageBubble.className = 'message-bubble';
+        messageBubble.textContent = message.content;
+        
+        const messageTime = document.createElement('div');
+        messageTime.className = 'message-time';
+        
+        // Format timestamp dari Firestore
+        if (message.timestamp && message.timestamp.toDate) {
+            try {
+                const date = message.timestamp.toDate();
+                messageTime.textContent = date.toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    day: 'numeric',
+                    month: 'short'
+                });
+            } catch (error) {
+                console.error("Error formatting date:", error);
+                messageTime.textContent = 'Baru saja';
+            }
+        } else if (message.time) {
+            messageTime.textContent = message.time;
+        } else {
+            messageTime.textContent = 'Baru saja';
+        }
+        
+        messageItem.appendChild(messageBubble);
+        messageItem.appendChild(messageTime);
+        
+        messageList.appendChild(messageItem);
+    });
+    
+    // Scroll ke bawah untuk lihat pesan terbaru
+    messageList.scrollTop = messageList.scrollHeight;
+}
+
+// Fungsi untuk mendengarkan pesan realtime dari Firestore
+function listenToMessages() {
+    if (!db) {
+        console.error("Firestore not initialized");
+        return;
+    }
+    
+    console.log("Memulai listener Firestore...");
+    
+    // Hentikan listener sebelumnya jika ada
+    if (messagesListener) {
+        messagesListener();
+    }
+    
+    // Setup realtime listener dengan order yang benar
+    messagesListener = db.collection("anonymous_messages")
+        .orderBy("timestamp", "asc") // Urutkan dari yang terlama ke terbaru
+        .onSnapshot((snapshot) => {
+            console.log("Menerima update dari Firestore");
+            
+            const messages = [];
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                messages.push({ 
+                    id: doc.id, 
+                    ...data 
+                });
+            });
+            
+            console.log("Jumlah pesan yang diterima:", messages.length);
+            displayMessages(messages);
+            
+        }, (error) => {
+            console.error("Error listening to messages: ", error);
+            // Fallback ke localStorage jika Firestore error
+            loadMessagesFromLocalStorage();
+        });
+}
+
+// Fallback ke localStorage
+function loadMessagesFromLocalStorage() {
+    console.log("Menggunakan fallback localStorage");
+    const savedMessages = localStorage.getItem('anonymousMessages');
+    if (savedMessages) {
+        try {
+            const messages = JSON.parse(savedMessages);
+            displayMessages(messages);
+        } catch (error) {
+            console.error("Error parsing localStorage data:", error);
+        }
+    }
+}
+
+// Auto-resize textarea
+if (messageInput) {
+    messageInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+}
+
+// Handle form submission
+if (anonymousForm) {
+    anonymousForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const messageContent = messageInput.value.trim();
+        
+        if (!messageContent) {
+            alert('Harap isi pesan Anda!');
+            return;
+        }
+        
+        if (messageContent.length > 500) {
+            alert('Pesan terlalu panjang. Maksimal 500 karakter.');
+            return;
+        }
+        
+        // Disable form sementara
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        
+        try {
+            console.log("Mengirim pesan ke Firestore...");
+            
+            // Simpan pesan ke Firestore
+            await db.collection("anonymous_messages").add({
+                content: messageContent,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                sender: "anonymous"
+            });
+            
+            console.log("Pesan berhasil dikirim");
+            
+            // Reset form
+            anonymousForm.reset();
+            messageInput.style.height = 'auto';
+            
+        } catch (error) {
+            console.error("Error sending message: ", error);
+            
+            // Fallback ke localStorage jika Firestore error
+            const savedMessages = localStorage.getItem('anonymousMessages') || '[]';
+            const messages = JSON.parse(savedMessages);
+            
+            const newMessage = {
+                content: messageContent,
+                time: new Date().toLocaleString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }),
+                sender: 'anonymous',
+                timestamp: new Date()
+            };
+            
+            messages.push(newMessage);
+            localStorage.setItem('anonymousMessages', JSON.stringify(messages));
+            displayMessages(messages);
+            
+            alert('Pesan berhasil dikirim (mode offline)');
+        } finally {
+            // Enable form kembali
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            messageInput.focus();
+        }
+    });
+}
+
+// ==================================================
+// INISIALISASI SAAT HALAMAN DIMUAT
+// ==================================================
+
+// Tunggu hingga DOM siap
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM ready, initializing anonymous messages...");
+    setTimeout(() => {
+        listenToMessages();
+    }, 1000);
+});
+
+// Juga inisialisasi jika halaman sudah loaded
+if (document.readyState === 'complete') {
+    console.log("Page already loaded, initializing anonymous messages...");
+    setTimeout(() => {
+        listenToMessages();
+    }, 500);
+}
+
+// Debug function untuk testing
+window.debugFirestore = function() {
+    console.log("=== FIRESTORE DEBUG ===");
+    
+    // Test read semua pesan
+    db.collection("anonymous_messages")
+        .orderBy("timestamp", "asc")
+        .get()
+        .then((snapshot) => {
+            console.log("Total pesan di Firestore:", snapshot.size);
+            snapshot.forEach((doc) => {
+                console.log("Pesan:", doc.data());
+            });
+        })
+        .catch((error) => {
+            console.error("Error debug:", error);
+        });
+};
+
+console.log("Anonymous messages system initialized");
+    </script>
+
+
+</body>
+</html>
